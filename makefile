@@ -1,6 +1,6 @@
 CXX = c++
-#CXXFLAGS = -Wall -O3 -funroll-loops -fomit-frame-pointer -fexpensive-optimizations
-CXXFLAGS = -g
+CXXFLAGS = -Wall -O3 -funroll-loops -fomit-frame-pointer -fexpensive-optimizations
+#CXXFLAGS = -g
 
 GCC_GENERATE_DEBUGGING_SYMBOLS = YES
 

@@ -1,31 +1,32 @@
 // 
-//  crc.hpp
+//  crc.h
 //  
 //  Created by Sebastian Jörn on 2008-07-30.
 //  Copyright 2008 Sebastian Jörn. All rights reserved.
 // 
 
-#ifndef _CRC_HPP
-#define _CRC_HPP
+#ifndef CRC_H
+#define CRC_H
 
 #include <cmath>
 #include "triang.hpp"
 #include "BoardLib/Board.h"
-
 using namespace BoardLib;
 
 const long double pi = 3.14159265359;
+
 const int number_of_iterations = 2000;//Number of iterations for the uniform neighbours approach.
 const long double margin_of_error = 0.1;//The margin of error for the uniform neighbours approach.
+
 
 class LComplex {//A labeled complex, which has a packing label if packing is set to true.
 public:
 	LComplex(): size(0), c(NULL), packing(false), label(NULL), neighbours(NULL), nsizes(NULL) {}
 	LComplex(CombPoint *cp, int s, int **n, int *ns);
-	LComplex(IGraph& igraph, int **n, int *ns);
+	LComplex(IGraph &igraph, int **n, int *ns);
 	~LComplex();
 
-	void layout(char *filename, bool drawCircles);//Follows the meta-code desribed in Stephenson's book p. 30.
+	void layout();//Follows the meta-code desribed in Stephenson's book p. 30.
 	void make_packing();//The key function of this class; makes the label of this complex into a packing label.
 	bool ispacking();
 	CombPoint &operator[](int index) { return c[index];}
@@ -36,7 +37,7 @@ public:
 private:
 	//auxiliary functions for layout:
 	void place_circle(int v, int u, int w, long double (*&coordinates)[2], bool *&placed);
-	void layout_draw(long double (*coordinates)[2], bool *placed, char *filename, bool drawCircles);//Utilises Sebastien Fourey's BoardLib for drawing SVG-files.
+	void layout_draw(long double (*coordinates)[2], bool *placed);//Utilises Sebastien Fourey's BoardLib for drawing SVG-files.
 
 	//auxiliary functions for make_packing:
 	long double angle_sum(int circle);//Calculates the angle sum (with the current labels) at the CombPoint circle.
@@ -56,4 +57,7 @@ private:
 
 long double angle(long double r, long double r1, long double r2);//Law of Cosines.
 
-#endif /* _CRC_HPP */
+//The main output function for the class Graph:
+void Graph_output(Graph &g, int *boundary);
+
+#endif

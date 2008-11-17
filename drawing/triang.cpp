@@ -284,6 +284,7 @@ Graph IGraph::configure(Graph &graph, int *boundary)
 	gnew.B = 0;
 	gnew.E = gnew.N;
 
+	gnew.output();
 	return gnew;
 }
 
@@ -315,12 +316,23 @@ int IGraph::findface(int *&face, int start, bool *inface)
 int IGraph::findorbitstart(map<int, int> &d, int point)
 {
 	int start = point;
+	int originalpoint = point;
+	do {
+		point = d[point];
+		if(point < start)
+			start = point;
+	} while(point != originalpoint);
+	return start;
+
+/*OLD
+	int start = point;
 	do {
 		point = d[point];
 		if(point < start)
 			start = point;
 	} while(point != start);
 	return start;
+*/
 }
 
 void IGraph::findneighbours(int cp, int **&neighbours, int *&neighboursizes)
@@ -473,12 +485,6 @@ void IGraph::info()
 			case CombPoint::Barycentre:
 				cout << "Barycentre ";
 				break;
-			// ================================================================
-			// = FIXME: Added in by David Howden to prevent compiler warning. =
-			// ================================================================
-			case CombPoint::None:
-            cout << "NONE ";
-            break;
 		};
 		cout << gp[i].orbit << endl;
 	}

@@ -5,6 +5,7 @@
 //  Copyright 2008 Sebastian Jörn. All rights reserved.
 // 
 
+
 #include "crc.hpp"
 
 LComplex::LComplex(CombPoint *cp, int s,  int **n, int *ns): size(s), packing(false)
@@ -53,7 +54,7 @@ LComplex::~LComplex()
 
 long double LComplex::angle_sum(int circle)
 {
-//	long double temp;
+	long double temp;
 
 	int k =nsizes[circle];
 	long double *r = new long double[k+1];
@@ -151,12 +152,6 @@ void LComplex::info()
 			case CombPoint::Barycentre:
 				cout << "Barycentre ";
 				break;
-			// ================================================================
-			// = FIXME: Added in by David Howden to prevent compiler warning. =
-			// ================================================================
-			case CombPoint::None:
-            cout << "NONE ";
-            break;
 		};
 		cout << "\t" << "Label: " << label[i] << endl << "\tNeighbours: ";
 		for(int j = 0; j < nsizes[i]; j++)
@@ -173,7 +168,7 @@ bool LComplex::ispacking()
 	return packing;
 }
 
-void LComplex::layout(char *filename, bool drawCircles)//Based on the meta-code in Stephenson's book for simply connected complexes.
+void LComplex::layout()//Based on the meta-code in Stephenson's book for simply connected complexes.
 {
 	if(packing)
 	{
@@ -231,24 +226,23 @@ void LComplex::layout(char *filename, bool drawCircles)//Based on the meta-code 
 		} while(!allplaced);
 
 		//Now have all coordinates, so all we need to do now is draw! We do this by using Fourey's BoardLib.
-		layout_draw(coordinates, placed, filename, drawCircles);
+		layout_draw(coordinates, placed);
 	}
 	else
 		cout << "Not a packing!" << endl;
 }
 
-void LComplex::layout_draw(long double (*coordinates)[2], bool *placed, char *filename, bool drawCircles)
+void LComplex::layout_draw(long double (*coordinates)[2], bool *placed)
 {
 	Board board;
-	unsigned char circles_lum = 220, boundary_lum = 0;
+	unsigned char circles_lum = 200, boundary_lum = 0;
 	unsigned char graph_red = 255, graph_green = 0, graph_blue = 0;
 	Color circles_color(circles_lum);
 	Color boundary_color(boundary_lum);
 	Color graph_color(graph_red, graph_green, graph_blue);
 
-	//cout << endl << "Draw circles? (y,n): ";
-	//if(cin.get() == 'y')
-	if (drawCircles)
+	cout << endl << "Draw circles? (y,n): ";
+	if(cin.get() == 'y')
 	{
 		//Draw circles:
 		board.setPenColor(circles_color);
@@ -289,7 +283,7 @@ void LComplex::layout_draw(long double (*coordinates)[2], bool *placed, char *fi
 		index++;
 	}
 
-	board.save(filename);
+	board.saveSVG("graph.svg");
 }
 
 void LComplex::make_packing()
@@ -390,3 +384,24 @@ long double angle(long double r, long double r1, long double r2)
 	return acos((pow(r+r1,2) + pow(r+r2,2) - pow(r1+r2,2) ) / (2*(r+r1)*(r+r2)));
 }
 
+void Graph_output(Graph &g, int *boundary)
+{
+	//Configure with boundary:
+	Graph gnew = IGraph::configure(g, boundary);
+
+	//Index the configured Graph:
+	IGraph ig(gnew, g.get_N());
+	ig.info();
+
+	//Find the neighbours of each IGCombPoint in the Graph:
+	int **neighbours;
+	int *neighboursizes;
+	ig.getallneighbours(neighbours, neighboursizes);
+
+	//Now create a labeled complex:
+	LComplex lc(ig, neighbours, neighboursizes);
+
+	//Finally, perform circle packing and layout:
+	lc.make_packing();
+	lc.layout();
+}

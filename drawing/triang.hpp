@@ -1,19 +1,17 @@
 // 
-//  triang.hpp
+//  triang.h
 //  
 //  Created by Sebastian Jörn on 2008-07-30.
 //  Copyright 2008 Sebastian Jörn. All rights reserved.
 // 
 
-#ifndef TRIANG_HPP
-#define TRIANG_HPP
+#ifndef TRIANG_H
+#define TRIANG_H
 
 #include "../Graph.hpp"
-
-using namespace PlanarGraph;
+using namespace Confluence;
 
 struct CombPoint {//All types of (combinatorial) points in the barycentric subdivision.
-	//Look over these to see if any are redundant...
 	enum CPointType {
 		None,
 		InteriorV,
@@ -29,15 +27,15 @@ struct CombPoint {//All types of (combinatorial) points in the barycentric subdi
 };
 
 struct IGCombPoint: public CombPoint {
-	IGCombPoint(): CombPoint(), orbit(-1) {};
-	IGCombPoint(int o, CPointType t): CombPoint(t), orbit(o) {};
+	IGCombPoint(): orbit(-1), CombPoint() {};
+	IGCombPoint(int o, CPointType t): orbit(o), CombPoint(t) {};
 	int orbit;//least point in orbit representing vertex/edge. [-1 for barycentres or none-points]
 };
 
 class IGraph {//An indexed Graph, with additional info distinguishing points in the original Graph and points in gnew.
 public:
 	friend class LComplex;
-	IGraph(): newdef(-1), gp(NULL), size(0), faces(NULL), face_sizes(NULL) {}
+	IGraph(): gp(NULL), newdef(-1), size(0), faces(NULL), face_sizes(NULL) {}
 	IGraph(const IGraph &);
 	//The following constructor will index all CombPoints in the Graph g, including barycentres.
 	//Input is ready-made planar graph (including the boundary), and an integer giving a lower bound for new-defined vertices (for the boundary).
@@ -45,7 +43,7 @@ public:
 	~IGraph();
 
 	static Graph configure(Graph &graph, int *boundary);//Takes graph and an array specifying where the boundary is.
-	void getallneighbours(int **&neighbours, int *&neighboursize);//In counterclockwise order. Might wanna make this static.
+	void getallneighbours(int **&neighbours, int *&neighboursize);//In counterclockwise order.
 	IGCombPoint &operator[](int index) { return gp[index];}
 	int getsize() {return size;}
 	int getfacecount();
@@ -65,7 +63,7 @@ private:
 
 	//auxiliary functions for getallneighbours:
 	void findneighbours(int cp, int **&neighbours, int *&neighboursizes);//Finds neighbours for a particular IGCombPoint (excluding barycentres).
-	void addtotriplen(int x, int y, int z, int **&triplen, int &triplensize);//Adds triple of the form {successor, barycentre, predecessor}.
+	void addtotriplen(int x, int y, int z, int **&triplen, int &triplensize);//Adds triple of the form: {successor, barycentre, predecessor}.
 
 	//DATA MEMBERS
 	Graph g;
@@ -79,5 +77,4 @@ private:
 	int*face_sizes;
 };
 
-//}
-#endif /* TRIANG_HPP */
+#endif

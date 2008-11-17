@@ -18,16 +18,17 @@ void test()
 {
 	cout << "Boo!";
 	Graph g;
-	g = Graph::createPolygon(3);
-	Graph g1 = Graph::createPolygon(4);
-	Graph g2 = Graph::createPolygon(5);
-	Graph g3 = Graph::glue(g, g1, 1);
-	Graph g4 = Graph::glue(g3, g2, 1);
-	Graph g5 = Graph::glue(g4, g, 2);
+	// g = Graph::createPolygon(3);
+	// Graph g1 = Graph::createPolygon(4);
+	// Graph g2 = Graph::createPolygon(5);
+	// Graph g3 = Graph::glue(g, g1, 1);
+	// Graph g4 = Graph::glue(g3, g2, 1);
+	// Graph g5 = Graph::glue(g4, g, 2);
+	g = Graph::createPolygon(4);
 
-	int boundary[7] = {1,0,1,0,2,0,0};
+	int boundary[4] = {1,1,1,1};
 
-	drawGraph(g5, boundary, "drawing_test.svg", false);
+	drawGraph(g, boundary, "drawing_test.svg", false);
 }
 
 int main()
