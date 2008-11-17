@@ -11,6 +11,7 @@
 #include <cmath>
 #include "triang.hpp"
 #include "BoardLib/Board.h"
+
 using namespace BoardLib;
 
 const long double pi = 3.14159265359;
@@ -56,8 +57,5 @@ private:
 };
 
 long double angle(long double r, long double r1, long double r2);//Law of Cosines.
-
-//The main output function for the class Graph:
-void Graph_output(Graph &g, int *boundary);
 
 #endif

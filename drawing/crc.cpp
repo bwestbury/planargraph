@@ -305,15 +305,23 @@ void LComplex::place_circle(int v, int u, int w, long double (*&coordinates)[2],
 
 	double xtemp = coordinates[w][0] - coordinates[u][0];
 	double ytemp = coordinates[w][1] - coordinates[u][1];
+	double radiisum = r+r1;
 	double beta;
+	
+	if (abs(xtemp) > radiisum) {
+		double temp = xtemp;
+		xtemp = radiisum;
+		radiisum = temp;
+	}
+	
 	if(xtemp > 0 && ytemp > 0)
-		beta = acos(xtemp/(r+r1));
+		beta = acos(xtemp/radiisum);
 	else if(xtemp < 0 && ytemp > 0)
-		beta = pi - acos((-xtemp)/(r+r1));
+		beta = pi - acos((-xtemp)/radiisum);
 	else if(xtemp < 0 && ytemp < 0)
-		beta = pi + acos((-xtemp)/(r+r1));
+		beta = pi + acos((-xtemp)/(radiisum));
 	else if(xtemp > 0 && ytemp < 0)
-		beta = 2*pi - acos(xtemp/(r+r1));
+		beta = 2*pi - acos(xtemp/(radiisum));
 	else if(xtemp == 0 && ytemp > 0)
 		beta = pi/2;
 	else if(xtemp == 0 && ytemp < 0)
@@ -322,7 +330,7 @@ void LComplex::place_circle(int v, int u, int w, long double (*&coordinates)[2],
 		beta = pi;
 	else// if(ytemp == 0 && xtemp > 0)
 		beta = 0;
-	//Usage of values of xtemp, ytemp ends here;
+	//Usage of values of xtemp, ytemp, radiisum ends here;
 
 	long double alpha = angle(r, r1, r2);
 
@@ -382,26 +390,4 @@ void LComplex::uniformneighbour_model(int circle)
 long double angle(long double r, long double r1, long double r2)
 {
 	return acos((pow(r+r1,2) + pow(r+r2,2) - pow(r1+r2,2) ) / (2*(r+r1)*(r+r2)));
-}
-
-void Graph_output(Graph &g, int *boundary)
-{
-	//Configure with boundary:
-	Graph gnew = IGraph::configure(g, boundary);
-
-	//Index the configured Graph:
-	IGraph ig(gnew, g.get_N());
-	ig.info();
-
-	//Find the neighbours of each IGCombPoint in the Graph:
-	int **neighbours;
-	int *neighboursizes;
-	ig.getallneighbours(neighbours, neighboursizes);
-
-	//Now create a labeled complex:
-	LComplex lc(ig, neighbours, neighboursizes);
-
-	//Finally, perform circle packing and layout:
-	lc.make_packing();
-	lc.layout();
 }

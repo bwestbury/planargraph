@@ -9,7 +9,8 @@
 #define TRIANG_H
 
 #include "../Graph.hpp"
-using namespace Confluence;
+
+using namespace PlanarGraph;
 
 struct CombPoint {//All types of (combinatorial) points in the barycentric subdivision.
 	enum CPointType {
