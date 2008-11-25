@@ -1,6 +1,6 @@
 CXX = c++
 CXXFLAGS = -Wall -O3 -funroll-loops -fomit-frame-pointer -fexpensive-optimizations
-#CXXFLAGS = -g
+#CXXFLAGS = -gstabs+ -feliminate-unused-debug-symbols
 
 GCC_GENERATE_DEBUGGING_SYMBOLS = YES
 
@@ -27,8 +27,8 @@ graph: $(GRAPH_FILES)
 
 drawing: $(DRAWING_FILES)
 
-test: graph drawing testing/test.o 
-	$(CXX) $(CXXFLAGS) -o testing/test testing/test.o $(DRAWING_FILES) $(GRAPH_FILES)
+test: graph drawing tests/test.o 
+	$(CXX) $(CXXFLAGS) -o tests/test tests/test.o $(DRAWING_FILES) $(GRAPH_FILES)
 
 libplanargraph.so: graph drawing test
 #	$(CXX) $(CXXFLAGS) -fPIC -shared -o libplanargraph.so $(GRAPH_FILES) $(DRAWING_FILES)
