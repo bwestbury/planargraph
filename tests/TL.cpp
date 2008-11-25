@@ -8,10 +8,7 @@
 //  Copyright 2007 David Howden. All rights reserved.
 // 
 
-// #include "Confluence.hpp"
-#include "Graph.hpp"
-//#include "SVGGraphDrawer.hpp"
-#include "drawing/drawing.hpp"
+#include "../PlanarGraph.hpp"
 
 #include <map>
 #include <set>
@@ -20,7 +17,7 @@
 #include <list>
 
 using namespace std;
-using namespace Confluence;
+using namespace PlanarGraph;
 
 int main (int argc, char const* argv[])
 {
