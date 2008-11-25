@@ -54,7 +54,7 @@ LComplex::~LComplex()
 
 long double LComplex::angle_sum(int circle)
 {
-	long double temp;
+//	long double temp;
 
 	int k =nsizes[circle];
 	long double *r = new long double[k+1];
@@ -151,6 +151,12 @@ void LComplex::info()
 				break;
 			case CombPoint::Barycentre:
 				cout << "Barycentre ";
+				break;
+			// =================================
+			// = Added to fix compiler warning =
+			// =================================
+			case CombPoint::None:
+				cout << "None ";
 				break;
 		};
 		cout << "\t" << "Label: " << label[i] << endl << "\tNeighbours: ";

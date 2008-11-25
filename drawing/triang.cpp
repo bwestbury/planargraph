@@ -485,6 +485,12 @@ void IGraph::info()
 			case CombPoint::Barycentre:
 				cout << "Barycentre ";
 				break;
+			// =================================
+			// = Added to fix compiler warning =
+			// =================================
+			case CombPoint::None:
+				cout << "None ";
+				break;
 		};
 		cout << gp[i].orbit << endl;
 	}
