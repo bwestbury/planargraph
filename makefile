@@ -1,8 +1,5 @@
 CXX = c++
 CXXFLAGS = -Wall -O3 -funroll-loops -fomit-frame-pointer -fexpensive-optimizations
-#CXXFLAGS = -gstabs+ -feliminate-unused-debug-symbols
-
-GCC_GENERATE_DEBUGGING_SYMBOLS = YES
 
 BOARD_FILES = \
 	drawing/BoardLib/Board.o \
@@ -21,19 +18,20 @@ DRAWING_FILES = \
 GRAPH_FILES = \
    Graph.o
 
-all: graph drawing test libplanargraph.so
+all: graph drawing test #libplanargraph.so
 
 graph: $(GRAPH_FILES)
 
 drawing: $(DRAWING_FILES)
 
-test: graph drawing tests/test.o 
+test: graph drawing tests/test.o
 	$(CXX) $(CXXFLAGS) -o tests/test tests/test.o $(DRAWING_FILES) $(GRAPH_FILES)
 
-libplanargraph.so: graph drawing test
-#	$(CXX) $(CXXFLAGS) -fPIC -shared -o libplanargraph.so $(GRAPH_FILES) $(DRAWING_FILES)
+libplanargraph.so: graph drawing
+	$(CXX) $(CXXFLAGS) -fPIC -shared -o libplanargraph.so $(GRAPH_FILES) $(DRAWING_FILES)
 
 clean: 
 	rm -f *.o
 	rm -f drawing/BoardLib/*.o
 	rm -f drawing/*.o
+	rm -f tests/*.o
