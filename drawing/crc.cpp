@@ -168,7 +168,7 @@ bool LComplex::ispacking()
 	return packing;
 }
 
-void LComplex::layout()//Based on the meta-code in Stephenson's book for simply connected complexes.
+void LComplex::layout(char * filename, bool drawCircles)//Based on the meta-code in Stephenson's book for simply connected complexes.
 {
 	if(packing)
 	{
@@ -226,13 +226,13 @@ void LComplex::layout()//Based on the meta-code in Stephenson's book for simply 
 		} while(!allplaced);
 
 		//Now have all coordinates, so all we need to do now is draw! We do this by using Fourey's BoardLib.
-		layout_draw(coordinates, placed);
+		layout_draw(coordinates, placed, filename, drawCircles);
 	}
 	else
 		cout << "Not a packing!" << endl;
 }
 
-void LComplex::layout_draw(long double (*coordinates)[2], bool *placed)
+void LComplex::layout_draw(long double (*coordinates)[2], bool *placed, char *filename, bool drawCircles)
 {
 	Board board;
 	unsigned char circles_lum = 200, boundary_lum = 0;
@@ -241,8 +241,7 @@ void LComplex::layout_draw(long double (*coordinates)[2], bool *placed)
 	Color boundary_color(boundary_lum);
 	Color graph_color(graph_red, graph_green, graph_blue);
 
-	cout << endl << "Draw circles? (y,n): ";
-	if(cin.get() == 'y')
+	if(drawCircles)
 	{
 		//Draw circles:
 		board.setPenColor(circles_color);
@@ -283,7 +282,7 @@ void LComplex::layout_draw(long double (*coordinates)[2], bool *placed)
 		index++;
 	}
 
-	board.saveSVG("graph.svg");
+	board.save(filename);
 }
 
 void LComplex::make_packing()

@@ -284,7 +284,7 @@ Graph IGraph::configure(Graph &graph, int *boundary)
 	gnew.B = 0;
 	gnew.E = gnew.N;
 
-	gnew.output();
+	// gnew.output();
 	return gnew;
 }
 

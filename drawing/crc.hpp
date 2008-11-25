@@ -27,7 +27,7 @@ public:
 	LComplex(IGraph &igraph, int **n, int *ns);
 	~LComplex();
 
-	void layout();//Follows the meta-code desribed in Stephenson's book p. 30.
+	void layout(char *filename, bool drawCircles);//Follows the meta-code desribed in Stephenson's book p. 30.
 	void make_packing();//The key function of this class; makes the label of this complex into a packing label.
 	bool ispacking();
 	CombPoint &operator[](int index) { return c[index];}
@@ -38,7 +38,7 @@ public:
 private:
 	//auxiliary functions for layout:
 	void place_circle(int v, int u, int w, long double (*&coordinates)[2], bool *&placed);
-	void layout_draw(long double (*coordinates)[2], bool *placed);//Utilises Sebastien Fourey's BoardLib for drawing SVG-files.
+	void layout_draw(long double (*coordinates)[2], bool *placed, char *filename, bool drawCircles);//Utilises Sebastien Fourey's BoardLib for drawing SVG-files.
 
 	//auxiliary functions for make_packing:
 	long double angle_sum(int circle);//Calculates the angle sum (with the current labels) at the CombPoint circle.
