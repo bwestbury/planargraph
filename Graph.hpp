@@ -6,8 +6,8 @@
 //  Copyright 2007 David Howden. All rights reserved.
 // 
 
-#ifndef __GRAPH_HPP__
-#define __GRAPH_HPP__
+#ifndef _GRAPH_HPP_
+#define _GRAPH_HPP_
 
 #include <iostream>
 #include <iterator>
@@ -22,7 +22,7 @@ using namespace std;
 class IGraph;
 
 namespace PlanarGraph {
-   class Graph;  
+   class Graph;
 }
 
 void drawGraph(PlanarGraph::Graph &g, int *boundary, char *filename, bool drawCircles);
@@ -192,4 +192,4 @@ ofstream& operator<<(ofstream &os, const set< T > &s);
 template<class T>
 ostream& operator<<(ostream &os, const set< T > &s);
 
-#endif /* __GRAPH_HPP__ */
+#endif /* _GRAPH_HPP_ */
