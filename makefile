@@ -28,10 +28,12 @@ test: graph drawing tests/test.o
 	$(CXX) $(CXXFLAGS) -o tests/test tests/test.o $(DRAWING_FILES) $(GRAPH_FILES)
 
 libplanargraph.so: graph drawing
-	$(CXX) $(CXXFLAGS) -fPIC -shared -o libplanargraph.so $(GRAPH_FILES) $(DRAWING_FILES)
+	# $(CXX) $(CXXFLAGS) -lc -fPIC -shared -o libplanargraph.so $(GRAPH_FILES) $(DRAWING_FILES)
+	$(CXX) $(CXXFLAGS) -lc -fPIC -shared -dynamiclib -flat_namespace -undefined suppress -o libplanargraph.so $(GRAPH_FILES) $(DRAWING_FILES)
 
 clean: 
 	rm -f *.o
+	rm -f *.so
 	rm -f drawing/BoardLib/*.o
 	rm -f drawing/*.o
 	rm -f tests/*.o
