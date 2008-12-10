@@ -120,6 +120,11 @@ public:
    static Graph closure(Graph g);
 	
 	/*
+		operator== calls isomorphic.  Used in linear combs etc...
+	*/
+	bool operator== (Graph &g);
+	
+	/*
 		Converts the current Graph object to its normal form
 	*/
    void closure();

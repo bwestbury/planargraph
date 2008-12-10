@@ -347,6 +347,11 @@ Graph::isomorphic(Graph &g) {
 	return true;
 }
 
+bool
+Graph::operator== (Graph &g) {
+	return isomorphic(g);
+}
+
 /*
    Computes the normal form of the given graph, and returns the result.
    Uses normalForm().
@@ -369,7 +374,6 @@ Graph::normalForm() {
 		flag = false;
 		for(set<int>::iterator iter = I.begin(); iter != I.end(); iter++) {
 			x = (*iter);
-
 			// e[x] == -1 <=> x < B
 			if(x >= B) {
 				y = c[x];
@@ -378,7 +382,7 @@ Graph::normalForm() {
 					if(y != -1) {
 						// loop
 						// flag = true;
-						// 							break;
+						// break;
 					}
 				} else {
 					// need to remove x and y...
@@ -398,7 +402,7 @@ Graph::normalForm() {
 						do {
 							temp = c[temp];
 						} while(c[temp] != z);
-													
+						
 						c[temp] = y;
 						c[y] = c[z];
 						
